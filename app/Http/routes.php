@@ -8,6 +8,6 @@ Route::get('/home', 'HomeController@index');
 
 });
 
-Route::post('sendmessage', 'chatController@sendMessage');
+Route::get('/sendmessage', 'ChatController@sendMessage');
 
 ?>

@@ -10,7 +10,7 @@ use Request;
 
 use LRedis;
 
-class chatController extends Controller
+class ChatController extends Controller
 {
     public function __construct()
 
@@ -24,7 +24,7 @@ class chatController extends Controller
 
 		$redis = LRedis::connection();
 
-		$data = ['message' => Request::input('message'), 'user' => Request::input('user')];
+		$data = ['message' => 'test', 'user' => Request::input('user')];
 
 		$redis->publish('message', json_encode($data));
 
