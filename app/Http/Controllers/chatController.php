@@ -7,8 +7,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Request;
+use Redis;
 
-use LRedis;
+//use LRedis;
 
 class ChatController extends Controller
 {
@@ -16,19 +17,17 @@ class ChatController extends Controller
 
 	{
 
-		$this->middleware('guest');
+		//$this->middleware('guest');
 
 	}
 
-	public function sendMessage(){
+	public function sendMessage($request) {
+		//$r = Illuminate\Support\Facades\Redis::connection();
 
-		$redis = LRedis::connection();
+		Redis::publish('test-channel', 'ceci est un tset');
 
-		$data = ['message' => 'test', 'user' => Request::input('user')];
+		//Redis::set('name', 'Taylor');
 
-		$redis->publish('message', json_encode($data));
-
-		return response()->json([]);
-
+		//return Redis::get('name');
 	}
 }
