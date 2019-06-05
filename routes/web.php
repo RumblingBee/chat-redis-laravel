@@ -23,6 +23,10 @@ Route::get('/profil', 'HomeController@showProfilPage')->name('profil');
 
 Route::post('sendmessage', 'chatController@sendMessage');
 
+Route::post('addfriend', 'FriendsController@addFriend');
+
+Route::get('listUsers', 'UserController@listUsers');
+
 Route::get('/test', function () {
     Redis::publish('test-channel', 'ceci est un test');
 });
