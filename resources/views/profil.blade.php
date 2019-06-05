@@ -34,9 +34,9 @@
                         </div>
 
 
-                        <div class="col-lg-8">
+                        <div class="col-lg-8" id="friendList">
                             <h5> Liste d'amis: </h5>
-                            <p> Pas d'amis renseignés actuellement.</p>
+
 
                         </div>
 
@@ -44,11 +44,9 @@
 
                         <div class="col-lg-8">
 
-                            <form action="addfriend"   method="POST">
+                            <form action="addFriend"   method="POST">
 
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
 
                                 <br/><br/>
                                 <div id="friendsForm"></div>
@@ -90,7 +88,7 @@ url: '{!! URL::to("listUsers") !!}',
 
     var intputSelect = '<select name="friendId" class="form-control" >';
 
-    console.log(data);
+
    data.forEach(function (element) {
 
         intputSelect += '<option value="' + element['_id'] +'">'+ element['name'] +' </option>'
@@ -102,6 +100,45 @@ intputSelect += '</select>';
 $('#friendsForm').append(intputSelect);
 
 });
+
+// Liste des amis
+$.ajax({
+
+type: "GET",
+
+url: '{!! URL::to("listFriends") !!}',
+
+
+
+}).then(function(data){
+
+    if(data.length > 0 ){
+    var htmlTable = '<form action="deleteFriend"  method="POST"> <table id="tblData" class ="table" style="margin-top:10%">   <input type="hidden" name="_token" value="{{ csrf_token() }}">';
+
+    console.log(data);
+   data.forEach(function (element) {
+
+    htmlTable += '<tr>';
+
+    htmlTable += '<td>' + element +' </td>';
+    htmlTable += '<td><input type="hidden" name="userId" value="' + element +'"></td>' ;
+    htmlTable += '<td><input type="submit" value="supprimer" class="btn btn-danger"> </td>'
+    htmlTable += '</tr> ';
+
+    });
+
+    htmlTable += '</table></form>';
+    console.log(htmlTable);
+
+$('#friendList').append(htmlTable).fadeIn("slow");
+
+}
+else{
+
+    $('#friendList').append('Vous n\'avez pas d\'amis actuellement.').fadeIn("slow");
+}
+}
+);
 
 
 

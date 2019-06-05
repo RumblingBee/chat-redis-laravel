@@ -23,8 +23,12 @@ Route::get('/profil', 'HomeController@showProfilPage')->name('profil');
 
 Route::post('sendmessage', 'chatController@sendMessage');
 
-Route::post('addfriend', 'FriendsController@addFriend');
+//Friends routes
+Route::post('addFriend', 'FriendsController@addFriend');
+Route::post('deleteFriend', 'FriendsController@deleteFriend');
+Route::get('listFriends', 'FriendsController@getFriendList');
 
+//Users
 Route::get('listUsers', 'UserController@listUsers');
 
 Route::get('/test', function () {
