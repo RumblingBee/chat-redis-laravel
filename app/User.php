@@ -22,7 +22,7 @@ class User extends Eloquent implements Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'friends',
     ];
 
     /**
@@ -41,5 +41,6 @@ class User extends Eloquent implements Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'friends' => 'array'
     ];
 }

@@ -26,7 +26,7 @@
 
                     <div class="col-lg-8" >
 
-                            <form action="sendmessage" method="POST">
+                            <form action="sendmessage" method="POST" onsubmit="return false">
 
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
 

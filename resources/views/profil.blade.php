@@ -17,30 +17,51 @@
 
             <div class="panel panel-default">
 
-                <div class="panel-heading"><h2> Profil de {{ Auth::user()->name }} </h2></div>
+                <div class="panel-heading">
+                    <h2> Profil de {{ Auth::user()->name }} </h2> <i> ({{ Auth::user()->id }}) </i>
+                </div>
 
                 <div class="panel-body">
 
 
 
-                <div class="row">
+                    <div class="row">
 
-                    <div class="col-lg-8" >
+                        <div class="col-lg-8">
 
-                 <p> {{ Auth::user()->email }}  </p>
+                            <p> {{ Auth::user()->email }} </p>
+
+                        </div>
+
+
+                        <div class="col-lg-8" id="friendList">
+                            <h5> Liste d'amis: </h5>
+
+
+                        </div>
+
+
+
+                        <div class="col-lg-8">
+
+                            <form action="addFriend"   method="POST">
+
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                                <br/><br/>
+                                <div id="friendsForm"></div>
+
+                                <br /><br/>
+
+                                <input type="submit" value="Ajouter" class="btn btn-success send-msg">
+
+                            </form>
+
+                        </div>
+
+
 
                     </div>
-
-
-                    <div class="col-lg-8" >
-                        <h5> Liste d'amis: </h5>
-                        <p>  Pas d'amis renseignés actuellement.</p>
-
-
-
-                    </div>
-
-                </div>
 
                 </div>
 
@@ -54,58 +75,76 @@
 
 <script>
 
-    var socket = io.connect('http://localhost:8890');
 
-    socket.on('message', function (data) {
+// Liste des utilisateurs
+$.ajax({
 
-        data = jQuery.parseJSON(data);
+type: "GET",
 
-        console.log(data.user);
+url: '{!! URL::to("listUsers") !!}',
 
-        $( "#messages" ).append( "<strong>"+data.user+":</strong><p>"+data.message+"</p>" );
 
-      });
+}).then(function(data){
 
-    $(".send-msg").click(function(e){
-        alert('ok!');
+    var intputSelect = '<select name="friendId" class="form-control" >';
 
-        e.preventDefault();
 
-        var token = $("input[name='_token']").val();
+   data.forEach(function (element) {
 
-        var user = $("input[name='user']").val();
+        intputSelect += '<option value="' + element['_id'] +'">'+ element['name'] +' </option>'
 
-        var msg = $(".msg").val();
+    });
 
-        if(msg != ''){
+intputSelect += '</select>';
 
-            $.ajax({
+$('#friendsForm').append(intputSelect);
 
-                type: "POST",
+});
 
-                url: '{!! URL::to("sendmessage") !!}',
+// Liste des amis
+$.ajax({
 
-                dataType: "json",
+type: "GET",
 
-                data: {'_token':token,'message':msg,'user':user},
+url: '{!! URL::to("listFriends") !!}',
 
-                success:function(data){
 
-                    console.log(data);
 
-                    $(".msg").val('');
+}).then(function(data){
 
-                }
 
-            });
+    if(data.length > 0 ){
+    var htmlTable = '';
 
-        }else{
+   data.forEach(function (element) {
 
-            alert("Please Add Message.");
+       console.log('test');
 
-        }
+    htmlTable += '<form action="deleteFriend"  method="POST">';
+    htmlTable += '<tr> ';
+    htmlTable += '<input type="hidden" name="_token" value="{{ csrf_token() }}">';
+    htmlTable += '<td>' + element +' </td>';
+    htmlTable += '<td><input type="hidden" name="userId" value="' + element +'"></td>' ;
+    htmlTable += '<td><input type="submit" value="supprimer" class="btn btn-danger"> </td>'
+    htmlTable += '</form></tr> ';
 
-    })
+    });
+
+    htmlTable += '</table>';
+    console.log(htmlTable);
+
+$('#friendList').append(htmlTable).fadeIn("slow");
+
+}
+else{
+
+    $('#friendList').append('Vous n\'avez pas d\'amis actuellement.').fadeIn("slow");
+}
+}
+);
+
+
+
 
 </script>
 
