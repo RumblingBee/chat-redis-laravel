@@ -19,7 +19,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,4 +29,28 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    data: {
+      message: 'Hello Vue!'
+    },
+    created: function () {
+      // `this` est une référence à l'instance de vm
+      console.log(this.message);
+    },
+    methods: {
+      reverseMessage: function () {
+        this.message = this.message.split('').reverse().join('')
+      }
+    }
 });
+
+var socket = io.connect('http://localhost:8890');
+
+socket.on('message', function (data) {
+
+    data = jQuery.parseJSON(data);
+
+    console.log(data.user);
+
+    //$( "#messages" ).append( "<strong>"+data.user+":</strong><p>"+data.message+"</p>" );
+
+  });
