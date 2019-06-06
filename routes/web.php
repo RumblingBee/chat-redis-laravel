@@ -21,4 +21,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/profil', 'HomeController@showProfilPage')->name('profil');
 
-Route::post('sendmessage', 'ChatController@sendMessage');
+Route::post('sendmessage', 'chatController@sendMessage');
+
+//Friends routes
+Route::post('addFriend', 'FriendsController@addFriend');
+Route::post('deleteFriend', 'FriendsController@deleteFriend');
+Route::get('listFriends', 'FriendsController@getFriendList');
+
+//Users
+Route::get('listUsers', 'UserController@listUsers');
+
+Route::get('/test', function () {
+    Redis::publish('test-channel', 'ceci est un test');
+});
