@@ -1,0 +1,13 @@
+#messages{
+
+    border: 1px solid black;
+
+    height: 300px;
+
+    margin-bottom: 8px;
+
+    overflow: scroll;
+
+    padding: 5px;
+
+}

@@ -19,7 +19,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,4 +29,48 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    data: {
+      token: '',
+      user: '',
+      message: '',
+      messages: []
+    },
+    mounted: function () {
+      // `this` est une référence à l'instance de vm
+      this.token = this.$refs._token.dataset.value;
+      this.user = this.$refs._user.dataset.value;
+    },
+    methods: {
+      sendMessage: function (e) {
+        e.preventDefault();
+
+        if(this.message != ''){
+
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", '/sendmessage', true);
+
+          //Send the proper header information along with the request
+          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+          xhr.onreadystatechange = function() { // Call a function when the state changes.
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                // Request finished. Do processing here.
+            }
+          }
+          xhr.send("_token="+this.token+"&user="+this.user+"&message="+this.message);
+          // xhr.send(new Int8Array()); 
+          // xhr.send(document);
+          this.message = '';
+        }else{
+          alert("Please Add Message.");
+        }
+      }
+    }
 });
+
+var socket = io.connect('http://localhost:8890');
+    socket.on('message', function (data) {
+        var conv = JSON.parse(data);
+        app.messages.push(conv.message);
+        //$( "#messages" ).append( "<strong>"+data.user+":</strong><p>"+data.message+"</p>" );
+      });
