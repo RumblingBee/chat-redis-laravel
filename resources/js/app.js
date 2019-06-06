@@ -27,20 +27,13 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var socket = io.connect('http://localhost:8890');
-    socket.on('message', function (data) {
-        console.log('connecté.');
-        console.log(data);
-        //$( "#messages" ).append( "<strong>"+data.user+":</strong><p>"+data.message+"</p>" );
-      });
-console.log(socket);
-
 const app = new Vue({
     el: '#app',
     data: {
       token: '',
       user: '',
-      message: ''
+      message: '',
+      messages: []
     },
     mounted: function () {
       // `this` est une référence à l'instance de vm
@@ -74,28 +67,10 @@ const app = new Vue({
       }
     }
 });
-/*
-import Echo from "laravel-echo"
-
-window.io = require('socket.io-client');
-
-window.Echo = new Echo({
-    broadcaster: 'socket.io',
-    host: window.location.hostname + ':6001'
-});
-
-Echo.private('test-channel')
-    .listen('message')
 
 var socket = io.connect('http://localhost:8890');
-
-socket.on('message', function (data) {
-
-    data = jQuery.parseJSON(data);
-
-    console.log(data.user);
-
-    //$( "#messages" ).append( "<strong>"+data.user+":</strong><p>"+data.message+"</p>" );
-
-  });
-*/
+    socket.on('message', function (data) {
+        var conv = JSON.parse(data);
+        app.messages.push(conv.message);
+        //$( "#messages" ).append( "<strong>"+data.user+":</strong><p>"+data.message+"</p>" );
+      });

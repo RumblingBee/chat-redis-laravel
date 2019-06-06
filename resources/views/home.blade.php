@@ -9,8 +9,10 @@
                 <div class="panel-heading">Chat Message Module</div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-8" >
-                            <div id="messages" ></div>
+                        <div class="col-lg-8">
+                            <div id="messages">
+                                <div class="alert alert-primary" role="alert" v-for="message in messages"> @{{message}} </div>
+                            </div>
                         </div>
                         <div class="col-lg-8" >
                             <form action="sendmessage" method="POST">
