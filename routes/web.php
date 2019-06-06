@@ -21,8 +21,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/profil', 'HomeController@showProfilPage')->name('profil');
 
-Route::post('sendmessage', 'chatController@sendMessage');
-
-Route::get('/test', function () {
-    Redis::publish('test-channel', 'ceci est un test');
-});
+Route::post('sendmessage', 'ChatController@sendMessage');
