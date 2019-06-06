@@ -30,27 +30,47 @@ window.Vue = require('vue');
 const app = new Vue({
     el: '#app',
     data: {
-      message: 'Hello Vue!'
+      token: '',
+      user: '',
+      message: '',
+      messages: []
     },
-    created: function () {
+    mounted: function () {
       // `this` est une référence à l'instance de vm
-      console.log(this.message);
+      this.token = this.$refs._token.dataset.value;
+      this.user = this.$refs._user.dataset.value;
     },
     methods: {
-      reverseMessage: function () {
-        this.message = this.message.split('').reverse().join('')
+      sendMessage: function (e) {
+        e.preventDefault();
+
+        if(this.message != ''){
+
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", '/sendmessage', true);
+
+          //Send the proper header information along with the request
+          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+          xhr.onreadystatechange = function() { // Call a function when the state changes.
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                // Request finished. Do processing here.
+            }
+          }
+          xhr.send("_token="+this.token+"&user="+this.user+"&message="+this.message);
+          // xhr.send(new Int8Array()); 
+          // xhr.send(document);
+          this.message = '';
+        }else{
+          alert("Please Add Message.");
+        }
       }
     }
 });
 
 var socket = io.connect('http://localhost:8890');
-
-socket.on('message', function (data) {
-
-    data = jQuery.parseJSON(data);
-
-    console.log(data.user);
-
-    //$( "#messages" ).append( "<strong>"+data.user+":</strong><p>"+data.message+"</p>" );
-
-  });
+    socket.on('message', function (data) {
+        var conv = JSON.parse(data);
+        app.messages.push(conv.message);
+        //$( "#messages" ).append( "<strong>"+data.user+":</strong><p>"+data.message+"</p>" );
+      });
