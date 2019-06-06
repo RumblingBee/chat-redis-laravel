@@ -112,22 +112,25 @@ url: '{!! URL::to("listFriends") !!}',
 
 }).then(function(data){
 
-    if(data.length > 0 ){
-    var htmlTable = '<form action="deleteFriend"  method="POST"> <table id="tblData" class ="table" style="margin-top:10%">   <input type="hidden" name="_token" value="{{ csrf_token() }}">';
 
-    console.log(data);
+    if(data.length > 0 ){
+    var htmlTable = '';
+
    data.forEach(function (element) {
 
-    htmlTable += '<tr>';
+       console.log('test');
 
+    htmlTable += '<form action="deleteFriend"  method="POST">';
+    htmlTable += '<tr> ';
+    htmlTable += '<input type="hidden" name="_token" value="{{ csrf_token() }}">';
     htmlTable += '<td>' + element +' </td>';
     htmlTable += '<td><input type="hidden" name="userId" value="' + element +'"></td>' ;
     htmlTable += '<td><input type="submit" value="supprimer" class="btn btn-danger"> </td>'
-    htmlTable += '</tr> ';
+    htmlTable += '</form></tr> ';
 
     });
 
-    htmlTable += '</table></form>';
+    htmlTable += '</table>';
     console.log(htmlTable);
 
 $('#friendList').append(htmlTable).fadeIn("slow");

@@ -38,27 +38,28 @@ class FriendsController extends Controller
 
         $currentUser->save();
 
-        return view('profil');
+        return  redirect('profil');
     }
 
     public function deleteFriend()
     {
 
+       $array = [];
        $currentUser = Auth::user();
 
        $friendList = $currentUser->friends;
 
        for($i = 0; $i < sizeof($friendList) ; $i++){
-        if($friendList[$i] === $_POST['userId']){
-            unset($friendList[$i]);
+        if($friendList[$i] !== $_POST['userId']){
+            array_push($array,$friendList[$i]);
         }
-       }
+    }
 
-       $currentUser->friends = $friendList;
+       $currentUser->friends = $array;
 
        $currentUser->save();
 
-        return view('profil');
+        return  redirect('profil');
     }
 
     public function getFriendList(){

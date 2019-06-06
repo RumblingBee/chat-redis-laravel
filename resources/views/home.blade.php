@@ -50,7 +50,7 @@
 
                     <div class="col-lg-8" >
 
-                            <form action="sendmessage" method="POST">
+                            <form action="sendmessage" method="POST" onsubmit="return false">
 
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
 
@@ -60,7 +60,7 @@
 
                                 <br/>
 
-                                <input type="button" value="Send" class="btn btn-success send-msg">
+                                <input type="submit" value="Send" class="btn btn-success send-msg">
 
                             </form>
 
@@ -93,6 +93,7 @@
       });
 
     $(".send-msg").click(function(e){
+        alert('ok!');
 
         e.preventDefault();
 
