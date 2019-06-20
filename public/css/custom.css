@@ -1,13 +1,12 @@
-#messages{
+#accordionExample {
+    width: 100;
+}
 
-    border: 1px solid black;
-
-    height: 300px;
-
-    margin-bottom: 8px;
-
+.card-columns {
     overflow: scroll;
-
-    padding: 5px;
-
+    white-space: nowrap;
+}
+  
+.card {
+    display: inline-block;
 }

@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/profil', 'HomeController@showProfilPage')->name('profil');
 
-Route::post('sendmessage', 'chatController@sendMessage');
+Route::post('/sendmessage', 'chatController@sendMessage');
 
 //Friends routes
 Route::post('addFriend', 'FriendsController@addFriend');

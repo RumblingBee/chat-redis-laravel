@@ -16,7 +16,13 @@ class ChatController extends Controller
 	public function sendMessage(Request $request) 
 	{
 		$redis = Redis::connection();
-		$data = ['message' => $request->input('message', 'Message introuvable.'), 'user' => $request->input('user', 'Anonyme')];
+		$data = [
+			'user' => $request->input('user', 'Anonyme'), 
+			'channel' => $request->input('channel', 'General'), 
+			'message' => $request->input('message', 'Message introuvable.'),
+			'date' => date("Y-m-d"),
+			'time' => date("H:i:s")   
+		];
 		$redis->publish('message', json_encode($data));
 		return response()->json([]);
 	}
