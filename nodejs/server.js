@@ -17,10 +17,6 @@ io.on('connection', function (socket) {
   redisClient.subscribe('message');
 
   redisClient.on("message", function(channel, data) {
-    //console.log(channel);
-    //console.log(data);
-
-    //console.log("mew message add in queue "+ data['message'] + " channel");
 
     socket.emit('message', data);
 
