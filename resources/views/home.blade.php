@@ -8,7 +8,7 @@
             <input type="hidden" name="_token" ref="_token" data-value="{{ csrf_token() }}"/>
             <input type="hidden" name="_user" ref="_user" data-value="{{ Auth::user()->name }}"/>
             <div id="accordionExample">
-                <div class="card-group">
+                <div class="card-columns">
                     <div class="card" v-for="conversation in conversations">
                         <div class="card-header" id="headingOne">
                             <h2>
