@@ -24,4 +24,10 @@ class UserController extends Controller
 
         return $userList;
     }
+    public function deleteAccount(){
+        $user = \Auth::user();
+        $user->forceDelete();
+        return redirect()->route('home');
+    }
 }
+

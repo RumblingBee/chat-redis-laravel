@@ -56,6 +56,13 @@
                                 <input type="submit" value="Ajouter" class="btn btn-success send-msg">
 
                             </form>
+                            <br/>
+                            <form action="deleteAccount"   method="POST">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                            <input type="submit" value="Supprimer mon compte" class="btn btn-danger send-msg">
+
+                            </form>
 
                         </div>
 
