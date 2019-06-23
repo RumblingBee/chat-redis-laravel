@@ -50,6 +50,8 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'country' => ['required', 'string', 'max:255'],
+            'language' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -63,10 +65,39 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'country' => $data['country'],
+            'language' => $data['language'],
             'password' => Hash::make($data['password']),
         ]);
+
+
+        if( $data['avatar'] !== NULL){
+
+            $user->avatar =  $data['avatar'];
+        }
+
+        if( $data['complete_name'] !== NULL){
+
+            $user->complete_name =  $data['complete_name'];
+        }
+
+        if( $data['facebook_account'] !== NULL){
+
+            $user->facebook_account =  $data['facebook_account'];
+        }
+
+        if( $data['birth_date'] !== NULL){
+
+            $user->birth_date =  $data['birth_date'];
+        }
+
+
+        $user->save();
+
+        return $user;
     }
 }
