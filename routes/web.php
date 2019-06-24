@@ -19,7 +19,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//Profil page
 Route::get('/profil', 'HomeController@showProfilPage')->name('profil');
+Route::post('/uploadAvatar', 'UserController@updateAvatar');
 
 Route::post('/sendmessage', 'chatController@sendMessage');
 
