@@ -34,6 +34,9 @@
                         </div>
 
 
+                        <div class="col-lg-8" id="onlineFriends">
+
+                        </div>
                         <div class="col-lg-8" id="friendList">
                             <h5> Liste d'amis: </h5>
 
@@ -49,7 +52,9 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                 <br/><br/>
-                                <div id="friendsForm"></div>
+                                <div id="friendsForm">
+                                    <h5> Ajouter un amis:</h5>
+                                </div>
 
                                 <br /><br/>
 
@@ -115,10 +120,8 @@ url: '{!! URL::to("listFriends") !!}',
 //On récupère le timestamp actuel et on le met en secondes
 var currentTimestamp = (new Date()).getTime() / 1000;
 
-console.log("data");
-console.log(data);
     if(data.length > 0 ){
-    var htmlTable = '';
+    var htmlTable = '<table class="table">';
 
    data[0].forEach(function (element) {
 
@@ -151,9 +154,9 @@ console.log(data);
     });
 
     htmlTable += '</table>';
-    console.log(htmlTable);
 
 $('#friendList').append(htmlTable).fadeIn("slow");
+afficherAmisEnLigne(data);
 
 }
 else{
@@ -162,6 +165,39 @@ else{
 }
 }
 );
+
+
+function afficherAmisEnLigne(data){
+
+//On récupère le timestamp actuel et on le met en secondes
+var currentTimestamp = (new Date()).getTime() / 1000;
+
+if(data.length > 0 ){
+var htmlTable = ' <h5> Amis connectés:</h5><table class="table">';
+
+data[0].forEach(function (element) {
+
+
+htmlTable += '<tr> ';
+if(element.last_activity !== null){
+ if(currentTimestamp - element.last_activity < 120){
+    htmlTable += '<td>' + element.name +' </td>';
+    }
+htmlTable += '</tr> ';
+}
+});
+
+htmlTable += '</table>';
+
+
+$('#onlineFriends').append(htmlTable).fadeIn("slow");
+
+}
+else{
+
+$('#onlineFriends').append('Vous n\'avez pas d\'amis actuellement.').fadeIn("slow");
+}
+}
 
 
 
