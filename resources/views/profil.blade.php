@@ -112,19 +112,39 @@ url: '{!! URL::to("listFriends") !!}',
 
 }).then(function(data){
 
+//On récupère le timestamp actuel et on le met en secondes
+var currentTimestamp = (new Date()).getTime() / 1000;
 
+console.log("data");
+console.log(data);
     if(data.length > 0 ){
     var htmlTable = '';
 
-   data.forEach(function (element) {
+   data[0].forEach(function (element) {
 
-       console.log('test');
+
+       console.log(element);
 
     htmlTable += '<form action="deleteFriend"  method="POST">';
     htmlTable += '<tr> ';
     htmlTable += '<input type="hidden" name="_token" value="{{ csrf_token() }}">';
-    htmlTable += '<td>' + element +' </td>';
-    htmlTable += '<td><input type="hidden" name="userId" value="' + element +'"></td>' ;
+    htmlTable += '<td>' + element.name +' </td>';
+    if(element.last_activity !== null){
+
+
+        if(currentTimestamp - element.last_activity < 120){
+            htmlTable += '<td> En ligne </td>';
+        }else{
+        htmlTable += '<td> Hors-ligne </td>';
+
+        }
+
+    }else{
+        htmlTable += '<td> Hors-ligne </td>';
+    }
+
+
+    htmlTable += '<td><input type="hidden" name="userId" value="' + element.id +'"></td>' ;
     htmlTable += '<td><input type="submit" value="supprimer" class="btn btn-danger"> </td>'
     htmlTable += '</form></tr> ';
 
