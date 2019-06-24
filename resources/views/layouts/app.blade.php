@@ -66,6 +66,7 @@
                                         @csrf
                                     </form>
                                     <a class="dropdown-item" href="{{ route('profil') }}">Profil</a>
+                                    <a class="dropdown-item" href="{{ route('showUpdatePage') }}">Modifier ses informations</a>
                                 </div>
 
                                 <li class="nav-item">

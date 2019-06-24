@@ -20,6 +20,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/profil', 'HomeController@showProfilPage')->name('profil');
+Route::post('/updateProfil', 'userController@updateProfil')->name('updateProfil');
+Route::get('/renderUpdateUserPage', 'userController@renderUpdateUserPage')->name('showUpdatePage');
 
 Route::post('/sendmessage', 'chatController@sendMessage');
 
