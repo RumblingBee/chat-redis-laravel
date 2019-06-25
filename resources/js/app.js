@@ -32,9 +32,15 @@ const app = new Vue({
     data: {
       token: '',
       user: '',
+      friends: [
+        { name: 'test 1', isConnected: true, alreadyOpen: false },
+        { name: 'test 2', isConnected: false, alreadyOpen: false },
+        { name: 'test 3', isConnected: true, alreadyOpen: true },
+        { name: 'test 4', isConnected: false, alreadyOpen: true }
+      ],
       conversations: [
-        { channel: 'test-1', message: '', messages: [{author: 'popopo', date: 'ffdv', time: 'rfefv', text: 'fperhrfopihoihoihouhoifehzohouhfo'}] },
-        { channel: 'test-2', message: '', messages: [{author: 'Fleury', date: 'vdfvv', time: 'vfe', text: 'fperhrfopihoihoihouhoifehzohouhfo'}] },
+        { channel: 'test-1', message: '', messages: [{ author: 'popopo', date: 'ffdv', time: 'rfefv', text: 'Encore une belle journée' }] },
+        { channel: 'test-2', message: '', messages: [{ author: 'Fleury', date: 'vdfvv', time: 'vfe', text: 'ceci est un test' }] },
         { channel: 'test-3', message: '', messages: [] }
       ]
     },
@@ -68,17 +74,37 @@ const app = new Vue({
             conversation.message = '';
           }
         });
+      },
+      newConversation: function (friend) {
+        var channelId = '_' + this.user + friend;  
+        var newConversation = { channel: channelId.split('').sort().join('').trim(), messages: [] }
+        this.conversations.push(newConversation);
+      },
+      openConversation: function (channel) {
+        this.$refs[channel][0].classList.toggle("show");
+      },
+      closeConversation: function (friend) {
+        var self = this;
+
+        self.conversations.forEach(function(conversation) {
+          if (conversation.channel === data.channel) {
+            conversation.messages.push({ author: data.user, date: data.date, time: data.time, text: data.message });
+          }
+        });
+
+        var newConversation = { channel: friend + '_' + this.user, messages: [] }
+        this.conversations.push(newConversation);
       }
     }
 });
 
 var socket = io.connect('http://localhost:8890');
-    socket.on('message', function (json) {
-        var data = JSON.parse(json);
-
-        app.conversations.forEach(function(conversation) {
-          if (conversation.channel === data.channel) {
-            conversation.messages.push({author: data.user, date: data.date, time: data.time, text: data.message});
-          }
-        });
-      });
+socket.on('message', function (json) {
+  var data = JSON.parse(json);
+  
+  app.conversations.forEach(function(conversation) {
+    if (conversation.channel === data.channel) {
+      conversation.messages.push({ author: data.user, date: data.date, time: data.time, text: data.message });
+    }
+  });
+});
