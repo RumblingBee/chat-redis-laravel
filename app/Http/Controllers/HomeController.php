@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,11 +24,19 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $currentUser = Auth::user();
+        $currentUser->last_activity = time();
+        $currentUser->save();
+
         return view('home');
     }
 
     public function showProfilPage()
     {
+        $currentUser = Auth::user();
+        $currentUser->last_activity = time();
+        $currentUser->save();
+
         return view('profil');
     }
 }
