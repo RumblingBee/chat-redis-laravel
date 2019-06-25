@@ -22,7 +22,7 @@ class User extends Eloquent implements Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'friends','country','language','complete_name','birth_date','register_date','facebook_account','avatar'
+        'name', 'email', 'password', 'friends','country','language','complete_name','birth_date','register_date','facebook_account','avatar','last_activity'
     ];
 
     /**

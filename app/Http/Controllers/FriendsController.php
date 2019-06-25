@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class FriendsController extends Controller
 {
@@ -36,6 +37,7 @@ class FriendsController extends Controller
             $currentUser->friends =  $array;
         }
 
+        $currentUser->last_activity = time();
         $currentUser->save();
 
         return  redirect('profil');
@@ -68,7 +70,19 @@ class FriendsController extends Controller
         $array = [];
 
         if($currentUser->friends !== null){
-            $array = $currentUser->friends;
+            for($i = 0; $i < sizeof($currentUser->friends); $i++){
+
+                $friend = User::find($currentUser->friends[$i]);
+                $attributes[$i]["id"] = $friend->id;
+                $attributes[$i]["name"] = $friend->name;
+
+                if($friend->last_activity !== NULL){
+                    $attributes[$i]["last_activity"] = $friend->last_activity;
+                }
+            }
+            array_push($array, $attributes);
+
+
         }
 
         return $array;
