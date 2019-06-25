@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Profil page
 Route::get('/profil', 'HomeController@showProfilPage')->name('profil');
+Route::post('/updateProfil', 'userController@updateProfil')->name('updateProfil');
+Route::get('/renderUpdateUserPage', 'userController@renderUpdateUserPage')->name('showUpdatePage');
 Route::post('/uploadAvatar', 'UserController@updateAvatar');
 
 Route::post('/sendmessage', 'chatController@sendMessage');
