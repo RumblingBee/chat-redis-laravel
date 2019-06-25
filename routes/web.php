@@ -19,9 +19,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//Profil page
 Route::get('/profil', 'HomeController@showProfilPage')->name('profil');
 Route::post('/updateProfil', 'userController@updateProfil')->name('updateProfil');
 Route::get('/renderUpdateUserPage', 'userController@renderUpdateUserPage')->name('showUpdatePage');
+Route::post('/uploadAvatar', 'UserController@updateAvatar');
 
 Route::post('/sendmessage', 'chatController@sendMessage');
 
@@ -32,6 +34,10 @@ Route::get('listFriends', 'FriendsController@getFriendList');
 
 //Users
 Route::get('listUsers', 'UserController@listUsers');
+
+//Suppression de son compte
+Route::post('deleteAccount', 'UserController@deleteAccount');
+
 
 Route::get('/test', function () {
     Redis::publish('test-channel', 'ceci est un test');
