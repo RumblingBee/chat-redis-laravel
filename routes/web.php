@@ -31,6 +31,10 @@ Route::get('listFriends', 'FriendsController@getFriendList');
 //Users
 Route::get('listUsers', 'UserController@listUsers');
 
+//Suppression de son compte
+Route::post('deleteAccount', 'UserController@deleteAccount');
+
+
 Route::get('/test', function () {
     Redis::publish('test-channel', 'ceci est un test');
 });
