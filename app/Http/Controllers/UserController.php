@@ -53,5 +53,12 @@ class UserController extends Controller
         return back()
             ->with('success','You have successfully upload image.');
 
+        }
+
+    public function deleteAccount(){
+        $user = \Auth::user();
+        $user->forceDelete();
+        return redirect()->route('home');
     }
 }
+
