@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\FriendsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +16,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        //$this->middleware('guest');
     }
 
     /**
@@ -24,18 +26,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $currentUser = Auth::user();
-        $currentUser->last_activity = time();
-        $currentUser->save();
+        if ($currentUser = Auth::user()) {
+            $currentUser->last_activity = time();
+            $currentUser->save();
 
-        return view('home');
+            $friends = new FriendsController();
+            return view('home', ['friends' => $friends->getFriendList()]);
+        }
+        return view('home', ['friends' => ['general']]);
     }
 
     public function showProfilPage()
     {
-        $currentUser = Auth::user();
-        $currentUser->last_activity = time();
-        $currentUser->save();
+        if ($currentUser = Auth::user()) {
+            $currentUser->last_activity = time();
+            $currentUser->save();
+        }
 
         return view('profil');
     }

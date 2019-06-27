@@ -75,6 +75,8 @@ class FriendsController extends Controller
                 $friend = User::find($currentUser->friends[$i]);
                 $attributes[$i]["id"] = $friend->id;
                 $attributes[$i]["name"] = $friend->name;
+                $attributes[$i]["alreadyOpen"] = false;
+                $attributes[$i]["isConnected"] = true;
 
                 if($friend->last_activity !== NULL){
                     $attributes[$i]["last_activity"] = $friend->last_activity;

@@ -49167,53 +49167,18 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 var app = new Vue({
   el: '#app',
   data: {
+    frends: '',
     token: '',
     user: '',
-    friends: [{
-      name: 'test 1',
-      isConnected: true,
-      alreadyOpen: false
-    }, {
-      name: 'test 2',
-      isConnected: false,
-      alreadyOpen: false
-    }, {
-      name: 'test 3',
-      isConnected: true,
-      alreadyOpen: true
-    }, {
-      name: 'test 4',
-      isConnected: false,
-      alreadyOpen: true
-    }],
-    conversations: [{
-      channel: 'test-1',
-      message: '',
-      messages: [{
-        author: 'popopo',
-        date: 'ffdv',
-        time: 'rfefv',
-        text: 'Encore une belle journée'
-      }]
-    }, {
-      channel: 'test-2',
-      message: '',
-      messages: [{
-        author: 'Fleury',
-        date: 'vdfvv',
-        time: 'vfe',
-        text: 'ceci est un test'
-      }]
-    }, {
-      channel: 'test-3',
-      message: '',
-      messages: []
-    }]
+    friends: [],
+    conversations: []
   },
   mounted: function mounted() {
     // `this` est une référence à l'instance de vm
+    this.frends = this.$refs._frends.dataset.value;
     this.token = this.$refs._token.dataset.value;
     this.user = this.$refs._user.dataset.value;
+    this.friends = JSON.parse(this.frends)[0];
   },
   methods: {
     sendMessage: function sendMessage(channel, message) {
@@ -49283,6 +49248,10 @@ socket.on('message', function (json) {
         time: data.time,
         text: data.message
       });
+
+      if (app.user !== data.user) {
+        alert('Nouveau message de ' + data.user);
+      }
     }
   });
 });

@@ -16,9 +16,10 @@ class ChatController extends Controller
 
 	public function sendMessage(Request $request)
 	{
-        $currentUser = Auth::user();
-        $currentUser->last_activity = time();
-        $currentUser->save();
+        if ($currentUser = Auth::user()) {
+			$currentUser->last_activity = time();
+			$currentUser->save();
+		}
 
 		$redis = Redis::connection();
 		$data = [

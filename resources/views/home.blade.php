@@ -13,8 +13,9 @@
                 <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
             </div>
             <form action="sendmessage" method="POST">
+                <input type="hidden" name="_frends" ref="_frends" data-value='@json($friends)'/>
                 <input type="hidden" name="_token" ref="_token" data-value="{{ csrf_token() }}"/>
-                <input type="hidden" name="_user" ref="_user" data-value="{{ Auth::user()->name }}"/>
+                <input type="hidden" name="_user" ref="_user" data-value="{{ @Auth::user()->name }}"/>
                 <div id="accordionExample">
                     <div class="card-columns">
                         <div class="card" v-for="conversation in conversations">
@@ -86,7 +87,7 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li v-for="friend in friends" class="list-group-item">
-                        <span v-if="friend.isConnected" class="badge badge-success">ok</span> @{{ friend.name }}
+                        <span v-if="friend.isConnected" class="badge badge-success">ok</span>
                         <span v-else="friend.isConnected" class="badge badge-danger">ko</span> @{{ friend.name }}
                         <button v-if="friend.alreadyOpen" class="btn btn-link" type="button"
                                 v-on:click="closeConversation(friend.name)">Fermer la fenetre de chat</button>
